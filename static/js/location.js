@@ -59,12 +59,6 @@ function initialize(latitude, longitude) {
       zoom: 15
     });
 
-  var request = {
-    location: pyrmont,
-    radius: '500',
-    types: ['restaurant']
-  };
-
   service = new google.maps.places.PlacesService(map);
   // service.nearbySearch(request, callback);
 }
@@ -73,8 +67,14 @@ function initialize(latitude, longitude) {
 function autoFillPlaces() {
   var button = $(this);
   button.find('a').html(button.find('a').data('load'));
-  service.nearbySearch(request, fillPlaces);
 
+  var request = {
+    location: pyrmont,
+    radius: '500',
+    types: ['restaurant']
+  };
+  
+  service.nearbySearch(request, fillPlaces);
 }
 
 function fillPlaces(results, status) {
