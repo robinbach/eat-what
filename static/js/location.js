@@ -3,6 +3,7 @@
 var map;
 var service;
 var infowindow;
+var pyrmont;
 
 // Browser location services
 
@@ -45,14 +46,10 @@ function geoFindMe() {
 
 // Google Map services
 
-var map;
-var service;
-var infowindow;
-
 function initialize(latitude, longitude) {
   // var pyrmont = new google.maps.LatLng(-33.8665433,151.1956316);
-  $('.places-data').html('<p>initing on' + latitude + '° , ' + longitude + '°</p>');
-  var pyrmont = new google.maps.LatLng(latitude, longitude);
+  // $('.places-data').html('<p>initing on' + latitude + '° , ' + longitude + '°</p>');
+  pyrmont = new google.maps.LatLng(latitude, longitude);
 
   map = new google.maps.Map(document.getElementById('map'), {
       center: pyrmont,
@@ -73,7 +70,7 @@ function autoFillPlaces() {
     radius: '500',
     types: ['restaurant']
   };
-  
+
   service.nearbySearch(request, fillPlaces);
 }
 
