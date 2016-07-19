@@ -1,7 +1,14 @@
+// Google Map services variables
+
+var map;
+var service;
+var infowindow;
+
 // Browser location services
 
 $(document).ready(function(){
   geoFindMe();
+  $('#title .auto-fill-button').click(autoFillPlaces)
 });
 
 
@@ -59,16 +66,25 @@ function initialize(latitude, longitude) {
   };
 
   service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, callback);
+  // service.nearbySearch(request, callback);
 }
 
-function callback(results, status) {
+
+function autoFillPlaces() {
+  var button = $(this);
+  button.find('a').html(button.find('a').data('load'));
+  service.nearbySearch(request, fillPlaces);
+
+}
+
+function fillPlaces(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < 3; i++) {
       var lucky = results[Math.floor(Math.random() * results.length)].name;
       var $form = $('#title .choice-form');
       $form.find('input').eq(i).val(lucky);
     }
-
+    var link = $('#title .auto-fill-button').find('a');
+    link.html(link.data('done'));
   }
 }
