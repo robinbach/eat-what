@@ -9,7 +9,6 @@ var pyrmont;
 
 $(document).ready(function(){
   geoFindMe();
-  $('#title .auto-fill-button').click(autoFillPlaces)
 });
 
 
