@@ -1,3 +1,10 @@
+// Google Map services variables
+
+var map;
+var service;
+var infowindow;
+var pyrmont;
+
 // Browser location services
 
 $(document).ready(function(){
@@ -17,7 +24,7 @@ function geoFindMe() {
     var latitude  = position.coords.latitude;
     var longitude = position.coords.longitude;
 
-    output.html('<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>');
+    // output.html('<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>');
 
     // var img = new Image();
     // img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
@@ -30,7 +37,7 @@ function geoFindMe() {
     output.html("Unable to retrieve your location");
   };
 
-  output.html("<p>Locating…</p>");
+  // output.html("<p>Locating…</p>");
 
   navigator.geolocation.getCurrentPosition(success, error);
 }
@@ -38,19 +45,25 @@ function geoFindMe() {
 
 // Google Map services
 
-var map;
-var service;
-var infowindow;
-
 function initialize(latitude, longitude) {
   // var pyrmont = new google.maps.LatLng(-33.8665433,151.1956316);
-  $('.places-data').html('<p>initing on' + latitude + '° , ' + longitude + '°</p>');
-  var pyrmont = new google.maps.LatLng(latitude, longitude);
+  // $('.places-data').html('<p>initing on' + latitude + '° , ' + longitude + '°</p>');
+  pyrmont = new google.maps.LatLng(latitude, longitude);
 
   map = new google.maps.Map(document.getElementById('map'), {
       center: pyrmont,
       zoom: 15
     });
+
+  service = new google.maps.places.PlacesService(map);
+  $('#title .auto-fill-button').click(autoFillPlaces)
+  // service.nearbySearch(request, callback);
+}
+
+
+function autoFillPlaces() {
+  var button = $(this);
+  button.find('a').html(button.find('a').data('load'));
 
   var request = {
     location: pyrmont,
@@ -58,17 +71,17 @@ function initialize(latitude, longitude) {
     types: ['restaurant']
   };
 
-  service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, callback);
+  service.nearbySearch(request, fillPlaces);
 }
 
-function callback(results, status) {
+function fillPlaces(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < 3; i++) {
       var lucky = results[Math.floor(Math.random() * results.length)].name;
       var $form = $('#title .choice-form');
       $form.find('input').eq(i).val(lucky);
     }
-
+    var link = $('#title .auto-fill-button').find('a');
+    link.html(link.data('done'));
   }
 }
