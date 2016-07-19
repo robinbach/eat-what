@@ -30,7 +30,7 @@ function geoFindMe() {
     output.html("Unable to retrieve your location");
   };
 
-  output.html("<p>Locating…</p>");
+  // output.html("<p>Locating…</p>");
 
   navigator.geolocation.getCurrentPosition(success, error);
 }
