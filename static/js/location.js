@@ -56,14 +56,16 @@ function initialize(latitude, longitude) {
     });
 
   service = new google.maps.places.PlacesService(map);
-  $('#title .auto-fill-button').click(autoFillPlaces)
+  var link = $('#title .auto-fill-button').find('a');
+  link.click(autoFillPlaces);
+  link.html(link.data('ready'));
   // service.nearbySearch(request, callback);
 }
 
 
 function autoFillPlaces() {
-  var button = $(this);
-  button.find('a').html(button.find('a').data('load'));
+  var link = $(this);
+  link.html(link.data('load'));
 
   var request = {
     location: pyrmont,
